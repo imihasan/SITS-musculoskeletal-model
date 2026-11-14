@@ -1,6 +1,11 @@
 # SITS-musculoskeletal-model
 This repository contains the spine-integrated thoracoscapular (SITS) musculoskeletal model, along with a compatible version of the Rapid Muscle Redundancy (RMR) solver. The solver has been extended with a multi-objective optimization approach that accounts for glenohumeral stability based on our previous work [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15445188.svg)](https://doi.org/10.5281/zenodo.15445188)
 
+The repository also contain a dataset of 10 participants without physical disability during dumbbell raise exercises. The dataset includes:
+
+- Motion data of the upper body
+- Electromyography (EMG) of selected shoulder muscles
+
 ## Citation
 Please cite this work as:
 
