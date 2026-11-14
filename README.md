@@ -3,7 +3,7 @@ This repository contains the spine-integrated thoracoscapular (SITS) musculoskel
 
 The repository also contain a dataset of 10 participants without physical disability during dumbbell raise exercises. The dataset includes:
 
-- Motion data of the upper body
+- Motion data
 - Electromyography (EMG) of selected shoulder muscles
 
 ## Citation
