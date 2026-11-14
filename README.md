@@ -4,7 +4,7 @@ This repository contains the spine-integrated thoracoscapular (SITS) musculoskel
 ## Citation
 Please cite this work as:
 
--Hasan, I. M. I. (2026). Quantifying internal shoulder loading : Musculoskeletal simulations of seated exercises and wheelchair transfers (PhD dissertation, KTH Royal Institute of Technology). Retrieved from https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-391949
+- Hasan, I. M. I. (2026). Quantifying internal shoulder loading : Musculoskeletal simulations of seated exercises and wheelchair transfers (PhD dissertation, KTH Royal Institute of Technology). Retrieved from https://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-391949
 
 - I. M. I. Hasan, I. Belli, A. Seth and E. M. Gutierrez-Farewik, "Modeling glenohumeral stability in musculoskeletal simulations: A validation study with in vivo contact forces," in IEEE Transactions on Neural Systems and Rehabilitation Engineering, **doi:** [10.1109/TNSRE.2025.3635012](https://doi.org/10.1109/TNSRE.2025.3635012).
 
