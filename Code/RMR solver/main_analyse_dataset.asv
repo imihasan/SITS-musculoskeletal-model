@@ -1,0 +1,144 @@
+% Script to run the Rapid Muscle Redundancy (RMR) solver on user-selected experiments.
+% The user is prompted with the selection of the tasks to analyze.
+% Within the script, it is possible to adjust the downsampling to be
+% applied, and whether the analysis should include the glenohumeral
+% constraint or not.
+%
+% Author: Italo Belli (i.belli@tudelft.nl) 2023
+
+%Customized By: Ibrahim Mohammed I. Hasan (imihasan@kth.se) 2023, KTH MoveAbility,
+%KTH Royal Institute of Technology, Stockholm, Sweden.
+fullPath = fileparts(matlab.desktop.editor.getActiveFilename);
+cd(fullPath+"\..\..")
+
+close all; clear; clc; beep off;
+
+% Import the OpenSim libraries.
+import org.opensim.modeling.*;
+
+% set the path current folder to be the one where this script is contained
+mfile_name          = mfilename('fullpath'); 
+[pathstr,~,~]  = fileparts(mfile_name);
+Directory='';
+subjectName='S04';
+Condition='Unlocked';
+
+cd(pathstr);
+
+% getting path to other folders in this repo
+addpath(pathstr)
+
+path_to_repo = 'C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral';
+addpath(fullfile(path_to_repo,'Code'))
+
+% where you have the experimental files (.trc)
+trc_path = fullfile(path_to_repo, 'Experimental Data',subjectName);
+mot_path = fullfile(path_to_repo, 'Results','Muscle Analysis',subjectName,Condition); 
+
+% where to save the results
+%Added this line to annotate different simulation trials with the corresponding changes
+editFlag=''; 
+mkdir(fullfile(path_to_repo,'\Results\Muscle Redundancy\',subjectName, editFlag, Condition))
+saving_path = fullfile(path_to_repo,'\Results\Muscle Redundancy\',subjectName, editFlag, Condition);
+
+% Select model
+modelFile_2kg = fullfile(path_to_repo, 'Model',subjectName,'SITSModel-Unilateral_scaled.osim');
+model_2kg = Model(modelFile_2kg);
+
+%Add Mass to hands
+model_2kg=Model(fullfile(path_to_repo, 'Model',subjectName,'SITSModel-Unilateral_scaled.osim'));
+model_2kg.updBodySet().get("hand").setMass(model_2kg.updBodySet().get("hand").getMass()+2);
+
+model_2kg.finalizeConnections();
+model_2kg.initSystem();
+
+%Get the motion data
+[files,path] = uigetfile('*.mot', 'Select the .trc fies to analyse', mot_path, 'MultiSelect','on');
+
+if iscell(files)
+    num_files = size(files, 2);
+else
+    num_files = 1;
+end
+
+% Set the weight for the various scapula coordinates in IK
+% This is to achieve a good agreement between scapula upward rotation and
+% shoulder elevation (as reported in the paper)
+weight_abd = 0.0001;
+weight_elev = 0.0001;
+weight_up_rot = 0.0002;
+weigth_wing = 0.0001;
+weight_coord = [weight_abd, weight_elev, weight_up_rot, weigth_wing];
+
+% Downsampling
+time_interval = 1;
+%Scale strength if needed
+numMuscles=model_2kg.getMuscles().getSize();
+for m=0:numMuscles-1
+    model_2kg.getMuscles().get(m).setMaxIsometricForce(1*model_2kg.getMuscles().get(m).getMaxIsometricForce());
+end
+
+model_2kg.finalizeConnections();
+%% Define Flags
+% Flags (Select whether to enforce constraints)
+% enforcing continuity of the activations from one timestep to the next, 
+% to respect first-order dynamics
+dynamic_bounds = true;
+% enforcing directional constraint on the glenohumeral joint force
+enforce_GH_constraint = false;
+% string indicating the name of the stability border to be enforced. 
+% It can be: circle, ellipse, polynomial or point.
+tag_con="polynomial";
+% string indicating which penalty to use in the cost function: 
+% "conditional", "planar", "curve", or "no_penalty"
+tag_cost= "planar";
+% execlude locked coordinates from matching
+execlude_locked=0;
+% execlude clavicle coordinates from matching
+execl_clav=0;
+% execlude scapula winging coordinate from matching
+execl_wing=0;
+% Deactivating coordinate coulping and point constraints in Dynamics
+flag_constraint=0;
+%Execlude lumbar spine from matching
+flag_excludeSpine=0;
+%Execlude cervical spine (neck) from matching
+flag_excludeNeck=0;
+%Execlude both spine and neck from matching
+flag_excludeBoth=1; 
+
+%% Run Rapid Muscle Redundancy (RMR) solver
+% preallocating arrays to hold information about the solutions
+optimizationStatus = [];
+unfeasibility_flag = [];
+tOptim = zeros(num_files,1);
+result_file_RMR = {};
+
+if ~iscell(files)
+    files={files};
+end
+
+for trc_file_index=1:num_files
+
+    fprintf(append('Running RMR on experiment ', files{trc_file_index}(1:end-4),' \n'), trc_file_index)
+    if num_files>1
+        experiment = append(path, files{trc_file_index});
+        
+    else
+        experiment = append(path,files{trc_file_index});
+    end
+    
+    % consider the correct model in the analysis, based on the .trc files
+
+    [aux_optimization_status, aux_unfeasibility_flags, tOptim(trc_file_index), aux_result_file] = RMR_analysis(...
+        model_2kg, 0, experiment, weight_coord, time_interval, dynamic_bounds, ...
+        enforce_GH_constraint, flag_constraint,flag_excludeSpine, flag_excludeNeck, ...
+        flag_excludeBoth, execlude_locked,execl_clav,saving_path, tag_con, tag_cost);
+
+
+
+    optimizationStatus(trc_file_index).experiment = aux_optimization_status;
+    result_file_RMR{trc_file_index} = aux_result_file;
+    unfeasibility_flag(trc_file_index).experiment = aux_unfeasibility_flags;
+    fprintf('\n Solved with %i unfeasible solutions \n \n \n', sum(aux_unfeasibility_flags));
+end

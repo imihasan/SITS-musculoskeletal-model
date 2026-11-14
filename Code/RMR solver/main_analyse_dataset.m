@@ -15,18 +15,17 @@ close all; clear; clc; beep off;
 import org.opensim.modeling.*;
 
 % set the path current folder to be the one where this script is contained
-mfile_name          = mfilename('fullpath'); 
-[pathstr,~,~]  = fileparts(mfile_name);
+pathstr=fileparts(matlab.desktop.editor.getActiveFilename);
 Directory='';
 subjectName='S04';
 Condition='Unlocked';
 
-cd(pathstr);
+cd(pathstr+"\..\..");
 
 % getting path to other folders in this repo
 addpath(pathstr)
 
-path_to_repo = 'C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral';
+path_to_repo = pwd;
 addpath(fullfile(path_to_repo,'Code'))
 
 % where you have the experimental files (.trc)
