@@ -6,10 +6,13 @@
 
 
 close all; clear
-
-results_directory="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Results\Individual Muscle Forces";
-results_directory_red="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Results\Muscle Redundancy";
-save_graphics="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Graphs";
+pathstr=fileparts(matlab.desktop.editor.getActiveFilename);
+cd(pathstr+"\..\..");
+addpath(pwd)
+path_to_repo = pwd;
+results_directory_red=path_to_repo+"\Results\Muscle Redundancy";
+save_graphics=path_to_repo+"\Graphs";
+results_directory=path_to_repo+"\Results\Individual Muscle Forces";
 testing_conditions="Postures";
 subj_weight=[58, 66.8, 70.7, 79, 58.5, 69.7, 75.7, 58.7, 77, 60.5]*9.81;
 

@@ -8,9 +8,14 @@
         
 close all; clear all
 
-results_directory="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Results\Muscle Redundancy";
-EMG_directory="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Experimental Data";
-save_graphics="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Graphs";
+pathstr=fileparts(matlab.desktop.editor.getActiveFilename);
+cd(pathstr+"\..\..");
+addpath(pwd)
+path_to_repo = pwd;
+results_directory=path_to_repo+"\Results\Muscle Redundancy";
+save_graphics=path_to_repo+"\Graphs";
+
+EMG_directory=path_to_repo+"\Experimental Data";
 conditions=["Locked", "Unlocked"];
 folders=dir(results_directory);
 testing_conditions="Models";

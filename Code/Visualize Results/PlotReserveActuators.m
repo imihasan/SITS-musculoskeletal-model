@@ -7,10 +7,13 @@
 %Scripted: 2025
         
 close all; clear all
-
-results_directory="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Results\Muscle Redundancy";
-results_ID="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Results\Inverse Dynamics";
-save_graphics="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Graphs";
+pathstr=fileparts(matlab.desktop.editor.getActiveFilename);
+cd(pathstr+"\..\..");
+addpath(pwd)
+path_to_repo = pwd;
+results_directory=path_to_repo+"\Results\Muscle Redundancy";
+save_graphics=path_to_repo+"\Graphs";
+results_ID=path_to_repo+"\Results\Inverse Dynamics";
 conditions=["Locked", "Unlocked"];
 folders=dir(results_directory);
 testing_conditions="Models";

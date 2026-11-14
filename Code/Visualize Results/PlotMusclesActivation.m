@@ -7,9 +7,13 @@
 
         
 close all; clear all
+pathstr=fileparts(matlab.desktop.editor.getActiveFilename);
+cd(pathstr+"\..\..");
+addpath(pwd)
+path_to_repo = pwd;
+results_directory=path_to_repo+"\Results\Muscle Redundancy";
+save_graphics=path_to_repo+"\Graphs";
 
-results_directory="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Results\Muscle Redundancy";
-save_graphics="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Graphs";
 conditions=["Locked", "Unlocked"];
 folders=dir(results_directory);
 testing_conditions="Models";
