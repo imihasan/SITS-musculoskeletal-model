@@ -1,16 +1,10 @@
 function [Fm, locaa, meanFm,meanloca,muscleForce,Costheta]=perturbMuscle(osimModel, muscle_name, ... 
     All_coordinates, All_coordNames, tim, xsol, muscle_order, Vec_H2GCC, Vec_GC2GEE,subj_weight)
 
+%Author: Ibrahim Mohammed I. Hasan (imihasan@kth.se)
+%KTH Royal Institute of Technology
+
 import org.opensim.modeling.*;
-% clear all
-% s=1;
-% model_path="C:\Users\ibrah\OneDrive - KTH\Paper I\"+"Unilateral"+"\Model"+"\S0"+string(s)+"\SITSModel-Unilateral_scaled.osim";
-% osimModel=Model(model_path);
-% load("C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Results\Muscle Redundancy\S01\Unlocked\muscle_activations_Upright_Lateral_Raise_Head.mat")
-% tim=timesExp;
-% muscle_name="DeltoideusScapula_P";
-% subj_weight=800;
-%osimModel.setUseVisualizer(true);
 
 state=osimModel.initSystem();
 
@@ -137,15 +131,6 @@ Fma(indF,:)=[];
 
 meanFm=mean(Fma)';
 meanloca=mean(locam);
-
-% figure
-% plot(Fm)
-% % 
-% figure
-% scatter(-locam(:,2),-locam(:,3),20,"filled")
-% hold on
-% scatter(0,0,30,"red","filled")
-% scatter(-1000*hge(2),-1000*hge(3),30,"blue","filled")
 
 end
 

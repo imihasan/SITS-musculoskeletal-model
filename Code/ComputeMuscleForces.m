@@ -4,15 +4,19 @@
 %Author: Ibrahim Mohammed I. Hasan (imihasan@kth.se)
 %KTH Royal Institute of Technology
 
+%%
 clear
 close all
-%%
 
-addpath("C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Code")
-addpath("C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Code\Visualize Results")
-sav_graphics="C:\Doctoral Research - KTH\Affinity Illustrations\Paper II\JCF Locs Postures";
-mkdir(sav_graphics)
-mkdir(sav_graphics,"Individuals Plots")
+pathstr=fileparts(matlab.desktop.editor.getActiveFilename);
+cd(pathstr+"\..");
+addpath(pwd)
+
+path_to_repo = pwd;
+addpath(fullfile(path_to_repo,'Code'))
+
+saving_path=path_to_repo+"\Results\Individual Muscle Forces";
+mkdir(saving_path)
 nsubj=10;
 model="Unilateral";
 conditions=["Unlocked"];
@@ -87,7 +91,6 @@ for s=1:nsubj
     fprintf(SS+string(s)+" Done\n")
 end
 
-saving_path="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral\Results\Individual Muscle Forces";
 save(saving_path+"\"+"Levator_Muscles_Forces_CoP_ModelsPostures.mat","out_param","muscles_param")
 
 %% Normalize
