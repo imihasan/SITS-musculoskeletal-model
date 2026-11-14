@@ -6,7 +6,11 @@
 clear all; close all
 import org.opensim.modeling.*;
 
-path="C:\Users\ibrah\OneDrive - KTH\Paper I\Unilateral";
+pathstr=fileparts(matlab.desktop.editor.getActiveFilename);
+cd(pathstr+"\..\");
+addpath(pwd)
+
+path=pwd;
 subject="S04";
 condition="Unlocked"; % A flag whether to lock the spine: Locked, Unlocked
 saving_path=fullfile(path,"Results/Muscle Analysis",subject,condition);

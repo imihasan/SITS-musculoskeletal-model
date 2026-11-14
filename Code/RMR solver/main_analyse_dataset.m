@@ -23,7 +23,7 @@ Condition='Unlocked';
 cd(pathstr+"\..\..");
 
 % getting path to other folders in this repo
-addpath(pathstr)
+addpath(pwd)
 
 path_to_repo = pwd;
 addpath(fullfile(path_to_repo,'Code'))
