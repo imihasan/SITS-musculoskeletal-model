@@ -28,3 +28,6 @@ Code and model included in this repository, were implemented by Ibrahim Mohammed
   <img src="https://github.com/user-attachments/assets/c280173a-8689-47fa-8f33-fcb32693e0f1" width="500">
 </p>
 
+## Issues
+If you experience any problems running the code, feel free to open an issue and I will try help you!
+
